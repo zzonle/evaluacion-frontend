@@ -1,97 +1,129 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WEB SPA</title>
-    <script src="https://unpkg.com/vue@3"></script>
-    <script src="https://cdn.tailwindcss.com"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Alumnos - Gestión Universidad</title>
+  <script src="https://unpkg.com/vue@3"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#1f2937',
+            accent: '#3b82f6',
+            soft: '#f3f4f6',
+          },
+        },
+      },
+    };
+  </script>
 </head>
-<body>
-    <div id="app">
-        <nav class="bg-purple-500 p-4 shadow-md">
-            <div class="container mx-auto flex flex-wrap items-center justify-between">
-                <a class="text-white font-bold text-xl" href="#">Gestion Universidad</a>
-                <button class="text-white md:hidden" @click="menuAbierto = !menuAbierto">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M4 6h16M4 12h16M4 18h16" />
-                </svg>
-                </button>
-                <ul :class="menuAbierto ? 'block w-full mt-2 space-y-2 md:flex md:space-y-0 md:space-x-4 md:w-auto md:mt-0' : 'hidden md:flex md:space-x-4 md:w-auto'"
-                    class="text-white text-sm font-medium">
-                <li><a href="inicio.html" class="block px-2 hover:underline">Inicio</a></li>
-                <li><a href="libros.html" class="block px-2 hover:underline">Alumnos</a></li>
-                <li><a href="categorias.html" class="block px-2 hover:underline">Asignatura</a></li>
-                <li><a href="autores.html" class="block px-2 hover:underline">Profesores</a></li>
-                </ul>
-            </div>
-        </nav>
-        <div id="app" class="container">
-            <h3 class="mb-4">Ingresar Alumnos</h3>
-            
-            <form @submit.prevent="agregarAlumno">
-                <div class="">
-                    <div class="">
-                        <label for="">Rut Alumno</label>
-                        <input v-model="nuevoAlumno.rutAlumno" type="text" class="form-control" placeholder="Rut del alumno" required />
-                    </div>
-                    <div class="">
-                        <label for="">Nombre Alumno</label>
-                        <input v-model="nuevoAlumno.nombreAlumno" type="text" class="form-control" placeholder="Nombre del alumno" required />
-                    </div>
-                </div>
-                <div class="">
-                    <div class="">
-                        <label for="">Asignatura</label>
-                        <select v-model="nuevoAlumno.asigantura">
-                            <option disabled value="">Seleccione asigantura</option>
-                            <option v-for="(asig, i) in asigantura" :key="i">{{ asig }}</option>
-                        </select>
-                    </div>
-                    <div class="">
-                        <label for="">Nombre Profesor</label>
-                        <select v-model="nuevoAlumno.nombreProfesor">
-                            <option disabled value="">Seleccione profesor</option>
-                            <option v-for="(profesor, i) in profesores" :key="i">{{ profesor.nombre }}</option>
-                        </select>
-                    </div>
-                </div>
-                <button type="submit" class="">Agregar Alumno</button>
-            </form>
-            
-            
-            <!-- Tabla de libros -->
-            <div class="container mx-auto mt-8 px-4">
-                <h3 class="text-2xl font-semibold mb-4">Lista de Alumnos</h3>
-          
-                <div class="overflow-x-auto hidden md:block">
-                  <table class="min-w-full border border-gray-300 text-sm text-left shadow-md">
-                    <thead class="bg-gray-100">
-                      <tr>
-                        <th class="p-2 border-b">Rut Alumno</th>
-                        <th class="p-2 border-b">Nombre Alumno</th>
-                        <th class="p-2 border-b">Asignatura</th>
-                        <th class="p-2 border-b">Nombre Profesor</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr v-for="(data, i) in datos" :key="i" class="hover:bg-gray-50">
-                        <td class="p-2 border-b">{{ data.rutAlumno }}</td>
-                        <td class="p-2 border-b">{{ libro.nombreAlumno }}</td>
-                        <td class="p-2 border-b">{{ libro.asigantura }}</td>
-                        <td class="p-2 border-b">{{ libro.nombreProfesor }}</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-            </div>
-        </div>
-    </div>
+<body class="bg-soft text-gray-800 font-sans">
 
-    <script src="/js/alumno.js"></script>
+  <div id="app">
+    <!-- NAVBAR -->
+    <nav class="bg-primary text-white shadow-md">
+      <div class="container mx-auto flex items-center justify-between p-4">
+        <a class="text-2xl font-semibold" href="#">🎓 Gestión Universidad</a>
+        <button class="md:hidden" @click="menuAbierto = !menuAbierto">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+        <ul :class="[menuAbierto ? 'block' : 'hidden', 'w-full mt-4 space-y-2 md:flex md:space-y-0 md:space-x-6 md:w-auto text-sm font-medium']">
+          <li><a href="/inicio.html" class="hover:text-accent transition">Inicio</a></li>
+          <li><a href="/view/alumno.html" class="hover:text-accent transition">Alumnos</a></li>
+          <li><a href="/view/asignatura.html" class="hover:text-accent transition">Asignaturas</a></li>
+          <li><a href="/view/profesor.html" class="hover:text-accent transition">Profesores</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- FORMULARIO -->
+    <div class="container mx-auto px-4 py-8">
+      <h2 class="text-2xl font-semibold mb-6 border-b pb-2">📝 Ingresar Alumno</h2>
+
+      <form @submit.prevent="agregarAlumno" class="bg-white p-6 rounded-xl shadow space-y-4">
+        <div class="grid md:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-medium mb-1">Nombre Alumno</label>
+            <input v-model="nuevoAlumno.nombreAlumno" type="text" class="w-full border p-2 rounded focus:ring-accent focus:border-accent" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-1">Edad Alumno</label>
+            <input v-model="nuevoAlumno.edadAlumno" type="number" class="w-full border p-2 rounded focus:ring-accent focus:border-accent" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-1">Correo Alumno</label>
+            <input v-model="nuevoAlumno.correo" type="email" class="w-full border p-2 rounded focus:ring-accent focus:border-accent" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-1">RUT Alumno</label>
+            <input v-model="nuevoAlumno.rutAlumno" type="text" class="w-full border p-2 rounded focus:ring-accent focus:border-accent" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-1">Asignatura</label>
+            <select v-model="nuevoAlumno.asignatura" class="w-full border p-2 rounded focus:ring-accent focus:border-accent">
+              <option disabled value="">Seleccione asignatura</option>
+              <option v-for="(asignatura, i) in asignaturas" :key="i">{{ asignatura.nombreAsignatura }}</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-1">Profesor</label>
+            <select v-model="nuevoAlumno.nombreProfesor" class="w-full border p-2 rounded focus:ring-accent focus:border-accent">
+              <option disabled value="">Seleccione profesor</option>
+              <option v-for="(profesor, i) in profesores" :key="i">{{ profesor.nombreProfesor }}</option>
+            </select>
+          </div>
+        </div>
+        <div class="text-right">
+          <button type="submit" class="bg-accent text-white px-6 py-2 rounded hover:bg-blue-700 transition">
+            Agregar Alumno
+          </button>
+        </div>
+      </form>
+
+      <!-- TABLA -->
+      <div class="mt-12">
+        <h2 class="text-2xl font-semibold mb-4">📋 Lista de Alumnos</h2>
+        <div class="overflow-x-auto bg-white shadow rounded-lg">
+          <table class="min-w-full text-sm divide-y divide-gray-200">
+            <thead class="bg-gray-100 text-gray-700 uppercase text-xs">
+              <tr>
+                <th class="px-4 py-3 text-left">Nombre</th>
+                <th class="px-4 py-3 text-left">RUT</th>
+                <th class="px-4 py-3 text-left">Correo</th>
+                <th class="px-4 py-3 text-left">Edad</th>
+                <th class="px-4 py-3 text-left">Asignatura</th>
+                <th class="px-4 py-3 text-left">Profesor</th>
+                <th class="px-4 py-3 text-left">Acciones</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-100">
+              <tr v-for="(alumno, i) in data" :key="i" class="hover:bg-gray-50">
+                <td class="px-4 py-3">{{ alumno.nombreAlumno }}</td>
+                <td class="px-4 py-3">{{ alumno.rutAlumno }}</td>
+                <td class="px-4 py-3">{{ alumno.correo }}</td>
+                <td class="px-4 py-3">{{ alumno.edadAlumno }}</td>
+                <td class="px-4 py-3">{{ alumno.asignatura }}</td>
+                <td class="px-4 py-3">{{ alumno.nombreProfesor }}</td>
+                <td class="px-4 py-3">
+                  <button @click="eliminarAlumno(i)" class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">
+                    Eliminar
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="/js/alumno.js"></script>
 </body>
 </html>
-
-
-

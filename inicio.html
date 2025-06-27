@@ -1,58 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WEB SPA</title>
-    <script src="https://unpkg.com/vue@3"></script>
-    <script src="https://cdn.tailwindcss.com"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gestión Universidad</title>
+  <script src="https://unpkg.com/vue@3"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#1f2937', // Gris oscuro (formal)
+            accent: '#3b82f6',  // Azul serio
+            soft: '#f3f4f6'     // Fondo suave
+          }
+        }
+      }
+    }
+  </script>
 </head>
-<body>
-    <div id="app"> 
-        <nav class="bg-purple-500 p-4 shadow-md">
-            <div class="container mx-auto flex flex-wrap items-center justify-between">
-                <a class="text-white font-bold text-xl" href="#">Gestion Universidad</a>
-                <button class="text-white md:hidden" @click="menuAbierto = !menuAbierto">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M4 6h16M4 12h16M4 18h16" />
-                </svg>
-                </button>
-                <ul :class="menuAbierto ? 'block w-full mt-2 space-y-2 md:flex md:space-y-0 md:space-x-4 md:w-auto md:mt-0' : 'hidden md:flex md:space-x-4 md:w-auto'"
-                    class="text-white text-sm font-medium">
-                <li><a href="inicio.html" class="block px-2 hover:underline">Inicio</a></li>
-                <li><a href="view/alumno.html" class="block px-2 hover:underline">Alumnos</a></li>
-                <li><a href="view/asignatura.html" class="block px-2 hover:underline">Asignatura</a></li>
-                <li><a href="view/profesor.html" class="block px-2 hover:underline">Profesores</a></li>
-                </ul>
-            </div>
-        </nav>
+<body class="bg-soft text-gray-800 font-sans">
 
-        <div class="container mx-auto mt-8 px-4">
-            <h3 class="text-2xl font-semibold mb-4">Lista de Alumnos</h3>
-            <div class="overflow-x-auto hidden md:block">
-              <table class="min-w-full border border-gray-300 text-sm text-left shadow-md">
-                <thead class="bg-gray-100">
-                  <tr>
-                    <th class="p-2 border-b">Rut Alumno</th>
-                    <th class="p-2 border-b">Nombre Alumno</th>
-                    <th class="p-2 border-b">Asignatura</th>
-                    <th class="p-2 border-b">Nombre Profesor</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="(data, i) in datos" :key="i" class="hover:bg-gray-50">
-                    <td class="p-2 border-b">{{ data.rutAlumno }}</td>
-                    <td class="p-2 border-b">{{ libro.nombreAlumno }}</td>
-                    <td class="p-2 border-b">{{ libro.asigantura }}</td>
-                    <td class="p-2 border-b">{{ libro.nombreProfesor }}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-        </div>
-    </div>
+  <div id="app">
+    <!-- Navbar -->
+    <nav class="bg-primary text-white shadow-md">
+      <div class="container mx-auto flex items-center justify-between p-4">
+        <a href="#" class="text-xl font-semibold tracking-wide">🎓 Gestión Universidad</a>
+        <button class="md:hidden" @click="menuAbierto = !menuAbierto">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+        <ul :class="[menuAbierto ? 'block' : 'hidden', 'w-full mt-4 space-y-2 md:flex md:space-y-0 md:space-x-6 md:w-auto text-sm']"
+            class="font-medium">
+          <li><a href="inicio.html" class="hover:text-accent transition">Inicio</a></li>
+          <li><a href="view/alumno.html" class="hover:text-accent transition">Alumnos</a></li>
+          <li><a href="view/asignatura.html" class="hover:text-accent transition">Asignaturas</a></li>
+          <li><a href="view/profesor.html" class="hover:text-accent transition">Profesores</a></li>
+        </ul>
+      </div>
+    </nav>
 
-    <script src="/js/inicio.js"></script>
+    <!-- Tabla de alumnos -->
+    <main class="container mx-auto px-4 py-10">
+      <h3 class="text-3xl font-semibold text-primary mb-6 border-b pb-2">📋 Lista de Alumnos</h3>
+      
+      <div class="overflow-x-auto bg-white shadow-md rounded-lg">
+        <table class="min-w-full text-sm text-left">
+          <thead class="bg-gray-100 text-gray-700 uppercase text-xs tracking-wider">
+            <tr>
+              <th class="px-6 py-3 border-b">RUT Alumno</th>
+              <th class="px-6 py-3 border-b">Nombre</th>
+              <th class="px-6 py-3 border-b">Asignatura</th>
+              <th class="px-6 py-3 border-b">Profesor</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-200">
+            <tr v-for="(alumno, i) in data  " :key="i" class="hover:bg-gray-50">
+              <td class="px-6 py-4">{{ alumno.rutAlumno }}</td>
+              <td class="px-6 py-4">{{ alumno.nombreAlumno }}</td>
+              <td class="px-6 py-4">{{ alumno.asignatura }}</td>
+              <td class="px-6 py-4">{{ alumno.nombreProfesor }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+
+  <script src="/js/inicio.js"></script>
 </body>
 </html>

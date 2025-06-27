@@ -2,11 +2,11 @@ const { createApp, reactive, ref, onMounted } = Vue;
 
 createApp({
   setup() {    
-    const datos = reactive(JSON.parse(localStorage.getItem('datos') || '[]'));
+    const data = reactive(JSON.parse(localStorage.getItem('data') || '[]'));
     const menuAbierto = ref(false)
 
     return {
-      datos,
+      data,
       menuAbierto
     };
 

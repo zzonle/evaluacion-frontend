@@ -2,56 +2,68 @@ const { createApp, reactive, ref, onMounted } = Vue;
 
 createApp({
   setup() {
-    const nuevoAlumno = reactive({ 
-        rutAlumno: '',
-        nombreAlumno: '', 
-        asigantura: '', 
-        nombreProfesor: ''
+    const menuAbierto = ref(false);
+
+    const nuevoAlumno = reactive({
+      rutAlumno: '',
+      nombreAlumno: '',
+      edadAlumno: '',
+      correo: '',
+      asignatura: '', // ← corregido (antes era "asignaturas")
+      nombreProfesor: ''
     });
+
     const data = reactive(JSON.parse(localStorage.getItem('data') || '[]'));
 
+    const profesores = ref([]);
+    const asignaturas = ref([]);
+
     function guardarAlumno() {
-      localStorage.setItem('nuevoAlumno', JSON.stringify(nuevoAlumno));
+      localStorage.setItem('data', JSON.stringify(data));
     }
 
     function agregarAlumno() {
-      if (nuevoAlumno.rutAlumno && nuevoAlumno.nombreAlumno && nuevoAlumno.asigantura && nuevoAlumno.nombreProfesor) {
-        data.push({
-            rutAlumno: nuevoAlumno.rutAlumno,
-            nombreAlumno: nuevoAlumno.nombreAlumno,
-            asigantura: nuevoAlumno.asigantura,
-            nombreProfesor: nuevoAlumno.nombreProfesor
-        });
+      if (
+        nuevoAlumno.rutAlumno &&
+        nuevoAlumno.nombreAlumno &&
+        nuevoAlumno.edadAlumno &&
+        nuevoAlumno.correo &&
+        nuevoAlumno.asignatura && // ← corregido
+        nuevoAlumno.nombreProfesor
+      ) {
+        data.push({ ...nuevoAlumno });
         nuevoAlumno.rutAlumno = '';
         nuevoAlumno.nombreAlumno = '';
-        nuevoAlumno.asigantura = '',
-        nuevoAlumno.nombreProfesor = '',
+        nuevoAlumno.edadAlumno = '';
+        nuevoAlumno.correo = '';
+        nuevoAlumno.asignatura = '';
+        nuevoAlumno.nombreProfesor = '';
+        guardarAlumno();
+      } else {
+        alert("Por favor, completa todos los campos.");
+      }
+    }
+
+    function eliminarAlumno(indice) {
+      if (confirm("¿Estás seguro de eliminar este alumno?")) {
+        data.splice(indice, 1);
         guardarAlumno();
       }
     }
 
-    function eliminarAlumno(indice){
-        data.splice(indice, 1);
-        guardarAlumno();
-    }
-
-    const nombreProfesor = ref([]);
-    const asigantura = ref([]);
-
     onMounted(() => {
-        nombreProfesor.value = JSON.parse(localStorage.getItem('nombreProfesor') || '[]');
-        asigantura.value = JSON.parse(localStorage.getItem('asigantura') || '[]');
+      profesores.value = JSON.parse(localStorage.getItem('profesores') || '[]');
+      asignaturas.value = JSON.parse(localStorage.getItem('asignaturas') || '[]');
     });
 
-
     return {
-        nuevoAlumno,
-        data,
-        agregarAlumno,
-        eliminarAlumno,
-        nombreProfesor,
-        asigantura
+      menuAbierto,
+      nuevoAlumno,
+      data,
+      agregarAlumno,
+      eliminarAlumno,
+      profesores,
+      asignaturas
     };
-
   }
 }).mount('#app');
