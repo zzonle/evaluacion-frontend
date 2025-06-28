@@ -6,7 +6,7 @@
   <title>Gestión Universidad</title>
   <script src="https://unpkg.com/vue@3"></script>
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="tailwind.config.js"></script>
+  <script src="/js/tailwind.config.js"></script>
 </head>
 <body class="bg-soft text-gray-800 font-sans">
 
@@ -41,7 +41,12 @@
 
     <!-- Tabla de alumnos -->
     <main class="container mx-auto px-4 py-10">
-      <h3 class="text-3xl font-semibold text-primary mb-6 border-b pb-2"> <svg width="24" height="24"><use xlink:href="/assents/evaluacion-frontend.svg#libroabierto"></use></svg>Lista de Alumnos</h3>
+      <div class="flex items-center space-x-2">
+          <svg class="w-6 h-6" width="24" height="24">
+            <use xlink:href="/assents/evaluacion-frontend.svg#libroabierto"></use>
+          </svg>
+          <a href="#" class="text-xl font-semibold tracking-wide">Tabla de estudiantes</a>
+      </div>
 
       <div class="overflow-x-auto bg-white shadow-md rounded-lg">
         <table class="min-w-full text-sm text-left">
