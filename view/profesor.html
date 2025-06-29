@@ -14,25 +14,32 @@
     <!-- NAVBAR -->
     <nav class="bg-primary text-white shadow-md">
       <div class="container mx-auto flex items-center justify-between p-4">
-        <a class="text-2xl font-semibold" href="#">🎓 Gestión Universidad</a>
-        <button class="md:hidden" @click="menuAbierto = !menuAbierto">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M4 6h16M4 12h16M4 18h16" />
+        <div class="flex items-center space-x-2">
+          <svg class="w-6 h-6" width="24" height="24">
+            <use xlink:href="/assents/evaluacion-frontend.svg#estudiante"></use>
           </svg>
-        </button>
-        <ul :class="[menuAbierto ? 'block' : 'hidden', 'w-full mt-4 space-y-2 md:flex md:space-y-0 md:space-x-6 md:w-auto text-sm font-medium']">
-          <li><a href="/inicio.html" class="hover:text-accent transition">Inicio</a></li>
-          <li><a href="/view/alumno.html" class="hover:text-accent transition">Alumnos</a></li>
-          <li><a href="/view/asignatura.html" class="hover:text-accent transition">Asignaturas</a></li>
-          <li><a href="/view/profesor.html" class="hover:text-accent transition">Profesores</a></li>
-        </ul>
+          <a href="#" class="text-xl font-semibold tracking-wide">Gestión Universidad</a>
+        </div>
+        <div class="flex items-center space-x-4">
+          <button class="md:hidden" @click="menuAbierto = !menuAbierto">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </button>
+          <ul :class="[menuAbierto ? 'block' : 'hidden', 'w-full mt-4 space-y-2 md:flex md:space-y-0 md:space-x-6 md:w-auto text-sm']"
+              class="font-medium">
+            <li><a href="/inicio.html" class="hover:text-accent transition">Inicio</a></li>
+            <li><a href="alumno.html" class="hover:text-accent transition">Alumnos</a></li>
+            <li><a href="asignatura.html" class="hover:text-accent transition">Asignaturas</a></li>
+            <li><a href="profesor.html" class="hover:text-accent transition font-bold text-accent">Profesores</a></li>
+          </ul>
+        </div>
       </div>
     </nav>
-
     <!-- FORMULARIO -->
     <div class="container mx-auto px-4 py-8">
-      <h2 class="text-2xl font-semibold mb-6 border-b pb-2">👨‍🏫 Registrar Profesor</h2>
+      <h2 class="text-2xl font-semibold mb-6 border-b pb-2">Registrar Profesor</h2>
 
       <form @submit.prevent="agregarProfesor" class="bg-white p-6 rounded-xl shadow space-y-4">
         <div class="grid md:grid-cols-2 gap-4">
@@ -54,7 +61,7 @@
 
       <!-- TABLA -->
       <div class="mt-12">
-        <h2 class="text-2xl font-semibold mb-4">📘 Lista de Profesores</h2>
+        <h2 class="text-2xl font-semibold mb-4"> Lista de Profesores</h2>
         <div class="overflow-x-auto bg-white shadow rounded-lg">
           <table class="min-w-full text-sm divide-y divide-gray-200">
             <thead class="bg-gray-100 text-gray-700 uppercase text-xs">

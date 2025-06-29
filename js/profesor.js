@@ -2,27 +2,36 @@ const { createApp, reactive, ref, onMounted } = Vue;
 
 createApp({
   setup() {
-    const menuAbierto = ref(false);
-
-    const nuevoProfesor = reactive({
-        nombreProfesor: '',
-        correo: ''
-    });
-
-    const data = reactive(JSON.parse(localStorage.getItem('profesores') || '[]'));
-
+    //funciones
     function guardarProfesor() {
       localStorage.setItem('profesores', JSON.stringify(data));
     }
 
+    function nombreValido(valor) {
+      const str = String(valor).trim();
+      return str.length > 0 && /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/.test(str);
+    }
+
     function agregarProfesor() {
-      if (nuevoProfesor.nombreProfesor && nuevoProfesor.correo) {
-        data.push({ ...nuevoProfesor });
-        nuevoProfesor.nombreProfesor = '';
-        nuevoProfesor.correo = '';
+      try{
+        if (!nombreValido(nuevoProfesor.nombreProfesor)){
+          throw new Error("Nombre del profesor no es valido.")
+        }
+        if(!nombreValido(nuevoProfesor.correo)){
+          throw new Error("Correo no valido.")
+        }
+        data.push({
+          nombreProfesor: nuevoProfesor.nombreProfesor,
+          correo: nuevoProfesor.correo
+        });
+        console.log("Profesor agregado:", nuevoProfesor);
         guardarProfesor();
-      } else {
-        alert("Por favor, completa todos los campos.");
+        Object.assign(nuevoProfesor, {
+          nombreProfesor: '',
+          correo: ''
+        })
+      }catch (error){
+        alert(error.message);
       }
     }
 
@@ -32,9 +41,19 @@ createApp({
         guardarProfesor();
       }
     }
+    const menuAbierto = ref(false);
+
+    const nuevoProfesor = reactive({
+        nombreProfesor: '',
+        correo: ''
+    });
+
+    const data = reactive(JSON.parse(localStorage.getItem('profesores') || '[]'));
+
+    
 
     onMounted(() => {
-      // Si necesitas cargar datos relacionados, puedes hacerlo aquí
+    
     });
 
     return {
